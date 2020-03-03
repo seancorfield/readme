@@ -11,7 +11,7 @@ Latest stable release: 1.0.8
 Add an alias to your `~/.clojure/deps.edn` file:
 
 ```clojure
-    :readme {seancorfield/readme {:mvn/version "1.0.8"}}
+    :readme {:extra-deps {seancorfield/readme {:mvn/version "1.0.8"}}}
 ```
 
 Then the most basic usage is:
