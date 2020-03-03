@@ -6,4 +6,4 @@
             [seancorfield.readme :as sut]))
 
 (deftest readme-conversion
-  (sut/test-readme "test/seancorfield/readme_example.md" "test/seancorfield/generated_test.clj"))
+  (sut/-main "test/seancorfield/readme_example.md" "test/seancorfield/generated_test.clj"))
