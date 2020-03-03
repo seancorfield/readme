@@ -4,15 +4,21 @@ A simple library that turns examples in your `README.md` file into tests and run
 
 ## Usage
 
-The most basic usage is:
+Add an alias to your `~/.clojure/deps.edn` file:
 
-    clojure -m seancorfield.readme
+```clojure
+    :readme {seancorfield/readme {:mvn/version "1.0.next"}}
+```
+
+Then the most basic usage is:
+
+    clojure -A:readme -m seancorfield.readme
 
 This turns `README.md`'s examples into tests in `src/readme.clj`, loads and runs them, and then deletes that generated file (line numbers in failures should match line numbers in your original `README.md` file).
 
 You can optionally provide a different file path for the readme and for the generated file:
 
-    clojure -m seancorfield.readme test/seancorfield/readme_example.md src/generated_test.clj
+    clojure -A:readme -m seancorfield.readme test/seancorfield/readme_example.md src/generated_test.clj
 
 If your `README.md` file contains code blocks of the form:
 
