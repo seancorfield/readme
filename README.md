@@ -4,14 +4,14 @@ A simple library that turns examples in your `README.md` file into tests and run
 
 This project follows the version scheme MAJOR.MINOR.COMMITS where MAJOR and MINOR provide some relative indication of the size of the change, but do not follow semantic versioning. In general, all changes endeavor to be non-breaking (by moving to new names rather than by breaking existing names). COMMITS is an ever-increasing counter of commits since the beginning of this repository.
 
-Latest stable release: 1.0.5
+Latest stable release: 1.0.7
 
 ## Usage
 
 Add an alias to your `~/.clojure/deps.edn` file:
 
 ```clojure
-    :readme {seancorfield/readme {:mvn/version "1.0.5"}}
+    :readme {seancorfield/readme {:mvn/version "1.0.7"}}
 ```
 
 Then the most basic usage is:
@@ -41,6 +41,8 @@ This will generate tests of the form:
 If there is no `=>` then the Clojure code blocks will be added to the generated test namespace as-is with no direct test. This allows setup code to be shown in the `README.md` file, followed by specific tests.
 
 Each `clojure` code block should be a standalone test. If there are multiple expressions in the code block before `=>` they will be wrapped in a `do`. There must be only one expression after `=>`.
+
+Note: you cannot (currently) use `ns` forms in these examples.
 
 ## Development
 

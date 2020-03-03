@@ -2,5 +2,5 @@
 
 ## Stable Builds
 
-* 2020-03-02 -- 1.0.5
+* 2020-03-02 -- 1.0.7
   * Initial version
