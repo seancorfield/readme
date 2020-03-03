@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>seancorfield</groupId>
   <artifactId>readme</artifactId>
-  <version>1.0.3</version>
+  <version>1.0.4</version>
   <name>readme</name>
   <description>FIXME: my new library.</description>
   <url>https://github.com/seancorfield/readme</url>
@@ -22,7 +22,7 @@
     <url>https://github.com/seancorfield/readme</url>
     <connection>scm:git:git://github.com/seancorfield/readme.git</connection>
     <developerConnection>scm:git:ssh://git@github.com/seancorfield/readme.git</developerConnection>
-    <tag>v1.0.3</tag>
+    <tag>v1.0.4</tag>
   </scm>
   <dependencies>
     <dependency>
