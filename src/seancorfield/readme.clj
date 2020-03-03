@@ -6,21 +6,52 @@
             [clojure.string :as str]
             [clojure.test :as ct]))
 
+(defn- parse-forms
+  "Given a series of Clojure forms, arrange them into pairs of
+  `expected` and `actual` for use in tests, followed by an optional
+  hash map containing any 'leftover' forms.
+
+  A sequence can begin with `user=>` followed by exactly one `actual`
+  form and exactly one `expected` form, or it can begin with any number
+  of `actual` forms (that will be grouped with a `do`) followed by `=>`
+  and then exactly one `expected` form. Any remaining forms will be
+  returned in a map with the key `::do` to be spliced into a `do`."
+  [body]
+  (loop [pairs [] [prompt actual expected & more :as forms] body]
+    (cond (< (count forms) 3)
+          (conj pairs {::do forms})
+
+          (= 'user=> prompt)
+          (recur (conj pairs [expected actual]) more)
+
+          :else
+          (let [actual   (take-while #(not= '=> %) forms)
+                expected (when-not (= (count forms) (count actual))
+                           (drop (inc (count actual)) forms))]
+            (if (seq expected)
+              (if (= 1 (count actual))
+                (recur (conj pairs [(first expected) (first actual)])
+                       (rest expected))
+                (recur (conj pairs [(first expected) (cons 'do actual)])
+                       (rest expected)))
+              (conj pairs {::do actual}))))))
+
 (defmacro defreadme
   "Wrapper for deftest that understands readme examples."
   [name & body]
-  (let [actual   (take-while #(not= '=> %) body)
-        expected (when-not (= (count body) (count actual))
-                   (drop (inc (count actual)) body))]
-    (if (seq expected)
-      (if (= 1 (count expected))
-        (if (= 1 (count actual))
-          `(ct/deftest ~name (ct/is (~'= ~(first expected) ~(first actual))))
-          `(ct/deftest ~name (ct/is (~'= ~(first expected) (do ~@actual)))))
-        (if (= 1 (count actual))
-          `(ct/deftest ~name (ct/is (~'= (do ~@expected) ~(first actual))))
-          `(ct/deftest ~name (ct/is (~'= (do ~@expected) (do ~@actual))))))
-      `(do ~@body))))
+  (let [organized     (partition-by vector? (parse-forms body))
+        [pairs tails] (if (map? (ffirst organized))
+                        [(second organized) (first organized)]
+                        organized)
+        assertions    (map (fn [[e a]] `(ct/is (~'= ~e ~a))) pairs)
+        other-forms   (map ::do tails)]
+    (if (seq assertions)
+      (if (seq other-forms)
+        `(do (ct/deftest ~name ~@assertions) ~@(first other-forms))
+        `(ct/deftest ~name ~@assertions))
+      (if (seq other-forms)
+        `(do ~@(first other-forms))
+        nil))))
 
 (defn- test-ns
   "Given a file path, return the namespace for it.
@@ -73,8 +104,15 @@
         readme-ns   (symbol (test-ns readme-test))]
     (when (.exists (io/file readme))
       (readme->test readme readme-test)
-      (try
-        (require readme-ns :reload)
-        (ct/test-ns readme-ns)
-        (finally
-          (.delete (io/file readme-test)))))))
+      (when (try
+              (require readme-ns :reload)
+              ::run-tests
+              (catch Throwable t
+                (println "\nFailed to require" readme-ns)
+                (println (.getMessage t))
+                (some->> t (.getCause) (.getMessage) (println "Caused by"))
+                (println readme-test "has not been deleted.")))
+        (try
+          (ct/run-tests readme-ns)
+          (finally
+            (.delete (io/file readme-test))))))))

@@ -24,27 +24,62 @@ You can optionally provide a different file path for the readme and for the gene
 
     clojure -A:readme -m seancorfield.readme test/seancorfield/readme_example.md src/generated_test.clj
 
+> Note: The output file path must be on your classpath so that the generated namespace can be `require`'d. The generated file will be deleted after running the tests (unless it cannot be `require`'d due to syntax errors, when it will be left in place for you to debug).
+
+If your `README.md` file contains a REPL session (using a `user=>` prompt) such as:
+
+    ```clojure
+    user=> some-expression
+    result-1
+    user=> another-expression
+    result-2
+    ```
+
+This will generate tests of the form:
+
+```clojure
+(deftest readme-N ; N is the line number
+  (is (= result-1 some-expression))
+  (is (= result-2 another-expression)))
+```
+
 If your `README.md` file contains code blocks of the form:
 
     ```clojure
-    some expression
+    some-expression
+    another-expression
     => result
     ```
 
 This will generate tests of the form:
 
 ```clojure
-(deftest readme-N
-  (is (= result (do some expression))))
+(deftest readme-N ; N is the line number
+  (is (= result (do some-expression another-expression))))
 ```
 
-If there is no `=>` then the Clojure code blocks will be added to the generated test namespace as-is with no direct test. This allows setup code to be shown in the `README.md` file, followed by specific tests.
+Any additional code, without `user=>` or `=>`, will be added to the generated test namespace as-is with no direct test. This allows setup code to be shown in the `README.md` file, followed by specific tests.
 
-Each `clojure` code block should be a standalone test. If there are multiple expressions in the code block before `=>` they will be wrapped in a `do`. There must be only one expression after `=>`.
+Each `clojure` code block will become a standalone test (if it contains `user=>` or `=>`). The tests may be executed in any order (by `clojure.test/run-tests`). Expressions that are not considered to be parts of any tests will be executed in order when the generated test namespace is loaded (by this `readme` library).
 
-Note: you cannot (currently) use `ns` forms in these examples.
+## Caveats
+
+You cannot use `ns` (or `in-ns`) forms in these examples, because the generated tests are all assumed to be in a single namespace (derived from the generated test filename).
+
+Printed output is not considered when running tests. If the REPL session in your readme file needs to show output, it is recommended to show it as comments like this, so that it will be ignored by the generated tests:
+
+```clojure
+user=> (println (+ 1 2 3))
+;; prints:
+; 6
+nil
+```
 
 ## Development
+
+Run the tests:
+
+    $ clojure -A:test:runner
 
 Build a deployable jar of this library:
 
