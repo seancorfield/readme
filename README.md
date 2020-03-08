@@ -4,25 +4,26 @@ A simple library that turns examples in your `README.md` file into tests and run
 
 This project follows the version scheme MAJOR.MINOR.COMMITS where MAJOR and MINOR provide some relative indication of the size of the change, but do not follow semantic versioning. In general, all changes endeavor to be non-breaking (by moving to new names rather than by breaking existing names). COMMITS is an ever-increasing counter of commits since the beginning of this repository.
 
-Latest stable release: 1.0.12
+Latest stable release: 1.0.13
 
 ## Usage
 
 Add an alias to your `~/.clojure/deps.edn` file:
 
 ```clojure
-    :readme {:extra-deps {seancorfield/readme {:mvn/version "1.0.12"}}}
+    :readme {:extra-deps {seancorfield/readme {:mvn/version "1.0.13"}}
+             :main-opts ["-m" "seancorfield.readme"]}
 ```
 
 Then the most basic usage is:
 
-    clojure -A:readme -m seancorfield.readme
+    clojure -A:readme
 
 This turns `README.md`'s examples into tests in `src/readme.clj`, loads and runs them, and then deletes that generated file (line numbers in failures should match line numbers in your original `README.md` file).
 
 You can optionally provide a different file path for the readme and for the generated file:
 
-    clojure -A:readme -m seancorfield.readme test/seancorfield/readme_example.md src/generated_test.clj
+    clojure -A:readme test/seancorfield/readme_example.md src/generated_test.clj
 
 > Note: The output file path must be on your classpath so that the generated namespace can be `require`'d. The generated file will be deleted after running the tests (unless it cannot be `require`'d due to syntax errors, when it will be left in place for you to debug).
 

@@ -112,7 +112,14 @@
                 (println (.getMessage t))
                 (some->> t (.getCause) (.getMessage) (println "Caused by"))
                 (println readme-test "has not been deleted.")))
-        (try
-          (ct/run-tests readme-ns)
-          (finally
-            (.delete (io/file readme-test))))))))
+        (let [summary (try
+                        (ct/run-tests readme-ns)
+                        (finally
+                          (.delete (io/file readme-test))))]
+          (shutdown-agents)
+          (if (and summary
+                   (number? (:fail summary))
+                   (number? (:error summary))
+                   (zero? (+ (:fail summary) (:error summary))))
+            (System/exit 0)
+            (System/exit 1)))))))
