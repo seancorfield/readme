@@ -10,7 +10,7 @@ Latest stable release: 1.0.13
 
 Add an alias to your `~/.clojure/deps.edn` file:
 
-```clojure
+``` clojure
     :readme {:extra-deps {seancorfield/readme {:mvn/version "1.0.13"}}
              :main-opts ["-m" "seancorfield.readme"]}
 ```
@@ -38,7 +38,7 @@ If your `README.md` file contains a REPL session (using a `user=>` prompt) such 
 
 This will generate tests of the form:
 
-```clojure
+``` clojure
 (deftest readme-N ; N is the line number
   (is (= result-1 some-expression))
   (is (= result-2 another-expression)))
@@ -54,7 +54,7 @@ If your `README.md` file contains code blocks of the form:
 
 This will generate tests of the form:
 
-```clojure
+``` clojure
 (deftest readme-N ; N is the line number
   (is (= result (do some-expression another-expression))))
 ```
@@ -62,6 +62,13 @@ This will generate tests of the form:
 Any additional code, without `user=>` or `=>`, will be added to the generated test namespace as-is with no direct test. This allows setup code to be shown in the `README.md` file, followed by specific tests.
 
 Each `clojure` code block will become a standalone test (if it contains `user=>` or `=>`). The tests may be executed in any order (by `clojure.test/run-tests`). Expressions that are not considered to be parts of any tests will be executed in order when the generated test namespace is loaded (by this `readme` library).
+
+If you wish to add Clojure-formatted code to your README that is _ignored_ by this library, use whitespace between the triple backtick and `clojure`, like this:
+
+    ``` clojure
+    ;; ignored by seancorfield/readme
+    (do-stuff 42)
+    ```
 
 ## Caveats
 
