@@ -2,6 +2,9 @@
 
 ## Stable Builds
 
+* 2020-09-25 -- 1.0.16
+  * Exit with non-zero status if test file cannot be required (syntax errors etc).
+
 * 2020-09-25 -- 1.0.15
   * Fix #4 by calling `make-parents` before spitting the file.
 

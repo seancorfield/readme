@@ -113,7 +113,8 @@
                 (println "\nFailed to require" readme-ns)
                 (println (.getMessage t))
                 (some->> t (.getCause) (.getMessage) (println "Caused by"))
-                (println readme-test "has not been deleted.")))
+                (println readme-test "has not been deleted.")
+                (System/exit 1)))
         (let [summary (try
                         (ct/run-tests readme-ns)
                         (finally

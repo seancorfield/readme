@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>seancorfield</groupId>
   <artifactId>readme</artifactId>
-  <version>1.0.15</version>
+  <version>1.0.16</version>
   <name>readme</name>
   <description>Turn README examples into executable tests.</description>
   <url>https://github.com/seancorfield/readme</url>
@@ -22,7 +22,7 @@
     <url>https://github.com/seancorfield/readme</url>
     <connection>scm:git:git://github.com/seancorfield/readme.git</connection>
     <developerConnection>scm:git:ssh://git@github.com/seancorfield/readme.git</developerConnection>
-    <tag>v1.0.15</tag>
+    <tag>v1.0.16</tag>
   </scm>
   <dependencies>
     <dependency>
