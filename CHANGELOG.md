@@ -2,6 +2,9 @@
 
 ## Stable Builds
 
+* 2020-09-25 -- 1.0.15
+  * Fix #4 by calling `make-parents` before spitting the file.
+
 * 2020-03-08 -- 1.0.13
   * Exit with non-zero status if tests produce any failures or errors, and call `shutdown-agents`.
   * Add `:main-opts` to alias in README to make usage easier.

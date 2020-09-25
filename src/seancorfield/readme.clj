@@ -85,9 +85,11 @@
               :else
               (recur lines copy  (inc line-no)
                      (conj test-lines (if copy line ""))))
-        (spit readme-test
-              (str "(ns " ns-test " (:require [seancorfield.readme]))"
-                   (str/join "\n" test-lines)))))))
+        (do
+          (io/make-parents readme-test)
+          (spit readme-test
+                (str "(ns " ns-test " (:require [seancorfield.readme]))"
+                     (str/join "\n" test-lines))))))))
 
 (defn -main
   "A useful default test behavior that can be invoked from the command

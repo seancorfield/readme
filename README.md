@@ -4,14 +4,14 @@ A simple library that turns examples in your `README.md` file into tests and run
 
 This project follows the version scheme MAJOR.MINOR.COMMITS where MAJOR and MINOR provide some relative indication of the size of the change, but do not follow semantic versioning. In general, all changes endeavor to be non-breaking (by moving to new names rather than by breaking existing names). COMMITS is an ever-increasing counter of commits since the beginning of this repository.
 
-Latest stable release: 1.0.13
+Latest stable release: 1.0.15
 
 ## Usage
 
 Add an alias to your `~/.clojure/deps.edn` file:
 
 ``` clojure
-    :readme {:extra-deps {seancorfield/readme {:mvn/version "1.0.13"}}
+    :readme {:extra-deps {seancorfield/readme {:mvn/version "1.0.15"}}
              :main-opts ["-m" "seancorfield.readme"]}
 ```
 
