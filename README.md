@@ -17,13 +17,13 @@ Add an alias to your `~/.clojure/deps.edn` file:
 
 Then the most basic usage is:
 
-    clojure -A:readme
+    clojure -M:readme
 
 This turns `README.md`'s examples into tests in `src/readme.clj`, loads and runs them, and then deletes that generated file (line numbers in failures should match line numbers in your original `README.md` file).
 
 You can optionally provide a different file path for the readme and for the generated file:
 
-    clojure -A:readme test/seancorfield/readme_example.md src/generated_test.clj
+    clojure -M:readme test/seancorfield/readme_example.md src/generated_test.clj
 
 > Note: The output file path must be on your classpath so that the generated namespace can be `require`'d. The generated file will be deleted after running the tests (unless it cannot be `require`'d due to syntax errors, when it will be left in place for you to debug).
 
@@ -87,19 +87,19 @@ nil
 
 Run the tests:
 
-    $ clojure -A:test:runner
+    $ clojure -M:test:runner
 
 Build a deployable jar of this library:
 
-    $ clojure -A:jar
+    $ clojure -M:jar
 
 Install it locally:
 
-    $ clojure -A:install
+    $ clojure -M:install
 
 Deploy it to Clojars -- needs `CLOJARS_USERNAME` and `CLOJARS_PASSWORD` environment variables:
 
-    $ clojure -A:deploy
+    $ clojure -M:deploy
 
 ## License
 
