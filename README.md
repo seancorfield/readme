@@ -83,6 +83,19 @@ user=> (println (+ 1 2 3))
 nil
 ```
 
+## Usage with Leiningen
+
+You can add the following to either your `~/.lein/profiles.clj` file or to the `:profiles` section of your `project.clj` file:
+
+``` clojure
+  :doc-test {:dependencies [[seancorfield/readme "1.0.16"]]
+             :aliases {"doc-test" ["run" "-m" "seancorfield.readme"]}}
+```
+
+Then you can run `lein with-profile doc-test doc-test`.
+
+_[Thank you to @Akeboshiwind for this tip!]_
+
 ## Development
 
 Run the tests:
