@@ -8,7 +8,7 @@ Latest stable release: 1.0.16
 
 ## Usage
 
-Add an alias to your `~/.clojure/deps.edn` file:
+Add an alias to your `~/.clojure/deps.edn` file (or `~/.config/clojure/deps.edn` file):
 
 ``` clojure
     :readme {:extra-deps {seancorfield/readme {:mvn/version "1.0.16"}}
