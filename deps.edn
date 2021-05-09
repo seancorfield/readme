@@ -1,17 +1,22 @@
 {:paths ["src"]
- :deps {org.clojure/clojure {:mvn/version "1.10.1"}}
+ :deps {org.clojure/clojure {:mvn/version "1.10.3"}}
  :aliases
  {:test {:extra-paths ["test"]
-         :extra-deps {org.clojure/test.check {:mvn/version "1.0.0"}}}
+         :extra-deps {org.clojure/test.check {:mvn/version "1.1.0"}}}
   :runner
-  {:extra-deps {com.cognitect/test-runner
+  {:extra-deps {io.github.cognitect-labs/test-runner
                 {:git/url "https://github.com/cognitect-labs/test-runner"
-                 :sha "b6b3193fcc42659d7e46ecd1884a228993441182"}}
-   :main-opts ["-m" "cognitect.test-runner"
-               "-d" "test"]}
-  :jar {:extra-deps {seancorfield/depstar {:mvn/version "1.1.128"}}
-        :main-opts ["-m" "hf.depstar.jar" "readme.jar"]}
-  :install {:extra-deps {slipset/deps-deploy {:mvn/version "0.1.1"}}
-            :main-opts ["-m" "deps-deploy.deps-deploy" "install" "readme.jar"]}
-  :deploy {:extra-deps {slipset/deps-deploy {:mvn/version "0.1.1"}}
-           :main-opts ["-m" "deps-deploy.deps-deploy" "deploy" "readme.jar"]}}}
+                 :sha "2d69f33d7980c3353b246c28f72ffeafbd9f2fab"}}
+   :exec-fn cognitect.test-runner.api/test}
+  :jar
+  {:replace-deps {com.github.seancorfield/depstar {:mvn/version "2.0.216"}}
+   :exec-fn hf.depstar/jar
+   :exec-args {:jar "readme.jar" :sync-pom true}}
+  :install
+  {:replace-deps {slipset/deps-deploy {:mvn/version "0.1.5"}}
+   :exec-fn deps-deploy.deps-deploy/deploy
+   :exec-args {:installer :local :artifact "readme.jar"}}
+  :deploy
+  {:replace-deps {slipset/deps-deploy {:mvn/version "0.1.5"}}
+   :exec-fn deps-deploy.deps-deploy/deploy
+   :exec-args {:installer :remote :artifact "readme.jar"}}}}

@@ -100,19 +100,19 @@ _[Thank you to @Akeboshiwind for this tip!]_
 
 Run the tests:
 
-    $ clojure -M:test:runner
+    $ clojure -X:test:runner
 
 Build a deployable jar of this library:
 
-    $ clojure -M:jar
+    $ clojure -X:jar
 
 Install it locally:
 
-    $ clojure -M:install
+    $ clojure -X:install
 
 Deploy it to Clojars -- needs `CLOJARS_USERNAME` and `CLOJARS_PASSWORD` environment variables:
 
-    $ clojure -M:deploy
+    $ clojure -X:deploy
 
 ## License
 
