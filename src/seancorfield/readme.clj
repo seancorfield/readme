@@ -12,10 +12,11 @@
   hash map containing any 'leftover' forms.
 
   A sequence can begin with `user=>` followed by exactly one `actual`
-  form and exactly one `expected` form, or it can begin with any number
-  of `actual` forms (that will be grouped with a `do`) followed by `=>`
-  and then exactly one `expected` form. Any remaining forms will be
-  returned in a map with the key `::do` to be spliced into a `do`."
+  form and exactly one `expected` form, or it can begin with any
+  number of `actual` forms (that will be grouped with a `do`) followed
+  by `=>` or `;; =>` and then exactly one `expected` form. Any
+  remaining forms will be returned in a map with the key `::do` to be
+  spliced into a `do`."
   [body]
   (loop [pairs [] [prompt actual expected & more :as forms] body]
     (cond (< (count forms) 3)
@@ -84,7 +85,7 @@
                      (conj test-lines ")"))
               :else
               (recur lines copy  (inc line-no)
-                     (conj test-lines (if copy line ""))))
+                     (conj test-lines (if copy (str/replace line #"^;; =>" "=>") ""))))
         (do
           (io/make-parents readme-test)
           (spit readme-test
